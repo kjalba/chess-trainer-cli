@@ -145,9 +145,7 @@ func handleUserInput(game *chess.Game, solution []string) {
 		}
 
 		// Converts the UCI move to algebraic (SAN) format to allow user to enter this format as well
-		correctMoveAlgebraic := chess.AlgebraicNotation{}.Encode(game.Position(), move)
-		correctMoveAlgebraic = strings.ToLower(correctMoveAlgebraic)
-		
+		correctMoveAlgebraic := convertChessMoveToAlgebraic(game, move)
 		var opponentMoveUCI string
 		if !lastMove {
 			opponentMoveUCI = solution[i+1]
@@ -162,7 +160,7 @@ func handleUserInput(game *chess.Game, solution []string) {
 		case "?", "help":
 			printHelp()
 		case "":
-			fmt.Printf("The correct move was %s.\n", correctMoveUCI)
+			fmt.Printf("The correct move was %s.\n", correctMoveAlgebraic)
 			// Applies the correct move in UCI format
 			game.Move(move)
 
@@ -173,13 +171,14 @@ func handleUserInput(game *chess.Game, solution []string) {
 					fmt.Printf("Failed to parse opponent UCI move: %v\n", err)
 					return
 				}
-				fmt.Printf("Opponent played %s.\n", opponentMove)
+				opponentMoveAlgebraic := convertChessMoveToAlgebraic(game, opponentMove)
+				fmt.Printf("Opponent played %s.\n", opponentMoveAlgebraic)
 				game.Move(opponentMove)
 			}
 			moveProcessed = true
 		default:
 			// Allows user to enter either UCI or SAN notation
-			if userInput == correctMoveUCI || userInput == correctMoveAlgebraic {
+			if userInput == correctMoveUCI || userInput == strings.ToLower(correctMoveAlgebraic) {
 				fmt.Println("Correct!")
 				fmt.Print("\n")
 				game.Move(move)
@@ -190,7 +189,8 @@ func handleUserInput(game *chess.Game, solution []string) {
 						fmt.Printf("Failed to parse opponent UCI move: %v\n", err)
 						return
 					}
-					fmt.Printf("Opponent played %s.\n", opponentMove)
+					opponentMoveAlgebraic := convertChessMoveToAlgebraic(game, opponentMove)
+					fmt.Printf("Opponent played %s.\n", opponentMoveAlgebraic)
 					game.Move(opponentMove)
 				}
 				moveProcessed = true
@@ -227,3 +227,6 @@ func getColor(turn chess.Color) string {
 	return "Black"
 }
 
+func convertChessMoveToAlgebraic(game *chess.Game, move *chess.Move) string {
+	return chess.AlgebraicNotation{}.Encode(game.Position(), move)
+}
