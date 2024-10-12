@@ -62,7 +62,7 @@ After running the program, it automatically fetches the daily chess puzzle from 
 
 The following features are planned for future versions:
 
-- [ ] Show the opponent's move in algebraic notation instead of UCI.
+- [x] Show the opponent's and user's moves in algebraic notation instead of UCI.
 - [ ] Add optional tags in the menu for different types of problem-solving.
 - [ ] Implement a random puzzle generator with customizable parameters such as theme and difficulty.
 - [ ] Improve UI readability by adding colors and better formatting.
