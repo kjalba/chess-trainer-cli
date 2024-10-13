@@ -26,17 +26,32 @@ type Lichess struct {
 	} `json:"puzzle"`
 }
 
+var (
+	dailyPuzzle bool
+	randomPuzzle bool
+)
+
+func init() {
+	const (
+		defaultDaily = false
+		dailyUsage = "Fetch the daily puzzle from Lichess"
+		defaultRandom = false
+		randomUsage = "Fetch a random puzzle based on theme and/or rating"
+	)
+	flag.BoolVar(&dailyPuzzle, "dailyPuzzle", defaultDaily, dailyUsage)
+	flag.BoolVar(&dailyPuzzle, "dp", defaultDaily, dailyUsage+" (shorthand)")
+
+	flag.BoolVar(&randomPuzzle, "randomPuzzle", defaultRandom, randomUsage)
+	flag.BoolVar(&randomPuzzle, "rp", defaultRandom, randomUsage+" (shorthand)")
+}
+
 
 func main() {
-	dailyFlag := flag.Bool("dailyPuzzle", false, "Fetch the daily puzzle from Lichess")
-	randomFlag := flag.Bool("randomPuzzle", false, "Fetch a random puzzle based on theme and/or rating")
-
 	flag.Parse()
-
-	if *randomFlag {
+	if randomPuzzle {
 		fmt.Println("Fetching a random puzzle...")
 		handleRandomPuzzle()
-	} else if *dailyFlag {
+	} else if dailyPuzzle {
 		fmt.Println("Fetching the daily puzzle...")
 		handleDailyPuzzle()
 	} else {
