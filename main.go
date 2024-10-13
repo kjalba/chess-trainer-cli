@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -26,6 +28,24 @@ type Lichess struct {
 
 
 func main() {
+	dailyFlag := flag.Bool("dailyPuzzle", false, "Fetch the daily puzzle from Lichess")
+	randomFlag := flag.Bool("randomPuzzle", false, "Fetch a random puzzle based on theme and/or rating")
+
+	flag.Parse()
+
+	if *randomFlag {
+		fmt.Println("Fetching a random puzzle...")
+		handleRandomPuzzle()
+	} else if *dailyFlag {
+		fmt.Println("Fetching the daily puzzle...")
+		handleDailyPuzzle()
+	} else {
+		fmt.Println("Fetching the daily puzzle...")
+		handleDailyPuzzle()
+	}
+}
+
+func handleDailyPuzzle() {
 	res, err := http.Get("https://lichess.org/api/puzzle/daily") // daily puzzle api 
 	if err != nil {
 		log.Fatal(err)
@@ -60,4 +80,9 @@ func main() {
 	// The notnil/chess library doesn't have a function for reversing the board's row and column headers in the drawing, so I implemented my own draw function
 	chessboard.DrawBoard(chessGameBoard, chessGame.Position().Turn() == chess.Black)
 	game.HandleUserInput(chessGame, puzzle.Solution)
+}
+
+func handleRandomPuzzle() {
+	// Logic to handle fetching random puzzles can be implemented here
+	fmt.Println("Random puzzle feature is under development.")
 }
