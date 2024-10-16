@@ -62,6 +62,8 @@ func HandleUserInput(game *chess.Game, solution []string) {
 				game.Move(opponentMove)
 			}
 			moveProcessed = true
+		case "s", "show":
+				chessboard.DrawBoard(game.Position().Board(), game.Position().Turn() == chess.Black)
 		default:
 			// Allows user to enter either UCI or SAN notation
 			if userInput == correctMoveUCI || userInput == strings.ToLower(correctMoveAlgebraic) {
@@ -87,9 +89,7 @@ func HandleUserInput(game *chess.Game, solution []string) {
 
 		if moveProcessed {
 			i += 2 // This works because the solution will always have an odd number of moves since the user always finishes the puzzle with a move
-			if ! lastMove {
-				chessboard.DrawBoard(game.Position().Board(), game.Position().Turn() == chess.Black)
-			} else {
+			if lastMove {
 				chessboard.DrawBoard(game.Position().Board(), game.Position().Turn() != chess.Black)
 			}
 		}

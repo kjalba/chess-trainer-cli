@@ -10,6 +10,7 @@ func PrintHelp() {
 	fmt.Println("\nHelp:")
 	fmt.Println(" - Enter your move (e.g., 'e4', 'Nf3', 'Qxd7').")
 	fmt.Println(" - Enter '?' to display this help message.")
+	fmt.Println(" - Enter 's' to show the current board.")
 	fmt.Println(" - Enter nothing to skip the move and reveal the correct answer.")
 	fmt.Println()
 }
