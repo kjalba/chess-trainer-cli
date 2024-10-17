@@ -56,7 +56,7 @@ After running the program, it automatically fetches the daily chess puzzle from 
 
 ### Example
 
-![alt text](assets/puzzle.png)
+![alt text](assets/usage.gif)
 
 ## Roadmap
 
